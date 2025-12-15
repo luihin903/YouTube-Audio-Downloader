@@ -1,0 +1,4 @@
+audioop-lts==0.2.2
+mutagen==1.47.0
+pydub==0.25.1
+yt-dlp==2025.12.8
