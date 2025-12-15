@@ -38,17 +38,17 @@ audio = AudioSegment.from_file(f"[raw] {artist} - {title} ({album}).mp3")
 
 # pad starting
 duration = len(audio)
-if start <= 0:
+if start < 0:
     audio = audio[-start*1000:]
-else:
+elif start > 0:
     padding = AudioSegment.silent(duration = start*1000)
     audio = padding + audio
 
 # pad ending
 duration = len(audio)
-if end <= 0:
+if end < 0:
     audio = audio[:end*1000]
-else:
+elif end > 0:
     padding = AudioSegment.silent(duration = end*1000)
     audio = audio + padding
 
