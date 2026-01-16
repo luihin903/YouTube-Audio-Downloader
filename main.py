@@ -56,7 +56,7 @@ elif end > 0:
 duration = len(audio)
 audio = audio[:-(duration%1000)]
 volume_change = -10 - audio.dBFS
-audio.apply_gain(volume_change)
+audio = audio.apply_gain(volume_change)
 audio.export(f"{artist} - {title} ({album}).mp3", format = "mp3", bitrate = "128k")
 
 # Edit metadata / tags
