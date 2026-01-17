@@ -3,6 +3,7 @@
 ## Requirements
 
 - FFmpeg
+- Node.js
 - cookies.txt (Use https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc) (You may need to update frequently)
 
 ## Arguments

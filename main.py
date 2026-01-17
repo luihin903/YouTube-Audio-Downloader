@@ -9,7 +9,7 @@ def process(index: int) -> tuple[str, str]:
     arg = sys.argv[index]
     return re.sub(r"[<>:\"/\\|?*]", '_', arg), arg
 
-url = sys.argv[1]
+url = sys.argv[1].split('&')[0] # remove query string
 artist, artist_raw = process(2)
 title, title_raw = process(3)
 album, album_raw = process(4)
@@ -17,6 +17,8 @@ start = int(sys.argv[5])
 end = int(sys.argv[6])
 
 ydl_opts = {
+    "js_runtimes" : {"node" : {}},
+    "remote_components" : {"ejs:github" : {}},
     "format" : "bestaudio/best",
     "outtmpl" : f"[raw] {artist} - {title} ({album})",
     "postprocessors" : [
@@ -59,11 +61,15 @@ volume_change = -10 - audio.dBFS
 audio = audio.apply_gain(volume_change)
 audio.export(f"{artist} - {title} ({album}).mp3", format = "mp3", bitrate = "128k")
 
-# Edit metadata / tags
+# Edit metadata / ID3 tags
+EasyID3.RegisterTXXXKey("paddings", "PADDINGS")
+EasyID3.RegisterTXXXKey("url", "URL")
 audio = EasyID3(f"{artist} - {title} ({album}).mp3")
 audio["artist"] = artist_raw
 audio["title"] = title_raw
 audio["album"] = album_raw
+audio["paddings"] = [str(start), str(end)]
+audio["url"] = url
 audio.save()
 
 os.remove(f"[raw] {artist} - {title} ({album}).mp3")
